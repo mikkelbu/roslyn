@@ -41,7 +41,7 @@ namespace Microsoft.CodeAnalysis.CSharp.SignatureHelp
                     throughType = semanticModel.GetTypeInfo(throughExpression, cancellationToken).Type;
                 }
 
-                var includeInstance = !throughExpression.IsKind(SyntaxKind.IdentifierName) ||
+                var includeInstance = (!throughExpression.IsKind(SyntaxKind.IdentifierName) && throughExpression.IsKind(SyntaxKind.SimpleMemberAccessExpression)) ||
                     semanticModel.LookupSymbols(throughExpression.SpanStart, name: throughSymbol.Name).Any(s => !(s is INamedTypeSymbol)) ||
                     (!(throughSymbol is INamespaceOrTypeSymbol) && semanticModel.LookupSymbols(throughExpression.SpanStart, container: throughSymbol.ContainingType).Any(s => !(s is INamedTypeSymbol)));
 
